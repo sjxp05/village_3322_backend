@@ -1,6 +1,7 @@
 package com.example.rental.domain.store.entity;
 
 import com.example.rental.common.BaseTimeEntity;
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -19,10 +20,6 @@ public class Store extends BaseTimeEntity {
 
     @Column(nullable = false)
     private String name;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private StoreCategory category;
 
     @Column(nullable = false)
     private Double latitude;
@@ -43,10 +40,9 @@ public class Store extends BaseTimeEntity {
     private StoreStatus status;
 
     @Builder
-    public Store(String name, StoreCategory category, Double latitude, Double longitude,
-                 String address, String description, String photoUrl, StoreStatus status) {
+    public Store(String name, Double latitude, Double longitude,
+            String address, String description, String photoUrl, StoreStatus status) {
         this.name = name;
-        this.category = category;
         this.latitude = latitude;
         this.longitude = longitude;
         this.address = address;

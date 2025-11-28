@@ -1,15 +1,16 @@
 package com.example.rental.domain.reservation.entity;
 
+import java.util.UUID;
+
 import com.example.rental.common.BaseTimeEntity;
 import com.example.rental.domain.store.entity.Item;
 import com.example.rental.domain.user.entity.User;
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.UUID;
 
 @Entity
 @Table(name = "reservations")
@@ -30,6 +31,9 @@ public class Reservation extends BaseTimeEntity {
     private Item item;
 
     @Column(nullable = false)
+    private Long usageHours;
+
+    @Column(nullable = false)
     private Long initialPaidFee;
 
     @Column(nullable = false, unique = true)
@@ -43,9 +47,10 @@ public class Reservation extends BaseTimeEntity {
     private Rental rental;
 
     @Builder
-    public Reservation(User user, Item item, Long initialPaidFee, ReservationStatus status) {
+    public Reservation(User user, Item item, Long usageHours, Long initialPaidFee, ReservationStatus status) {
         this.user = user;
         this.item = item;
+        this.usageHours = usageHours;
         this.initialPaidFee = initialPaidFee;
         this.qrToken = UUID.randomUUID().toString();
         this.status = status != null ? status : ReservationStatus.PAID;

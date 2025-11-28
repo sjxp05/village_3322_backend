@@ -84,3 +84,6 @@ Thumbs.db
 # Application
 application-local.yml
 application-local.properties
+
+# Properties
+gradle.properties

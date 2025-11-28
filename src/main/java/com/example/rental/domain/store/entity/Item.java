@@ -2,6 +2,7 @@ package com.example.rental.domain.store.entity;
 
 import com.example.rental.common.BaseTimeEntity;
 import com.example.rental.domain.user.entity.User;
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -35,16 +36,10 @@ public class Item extends BaseTimeEntity {
     private String photoUrl;
 
     @Column(nullable = false)
-    private Long feePerDay;
-
-    @Column(nullable = false)
     private Long feePerHour;
 
     @Column(nullable = false)
     private Long deposit;
-
-    @Column(nullable = false)
-    private Integer quantity;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -52,16 +47,14 @@ public class Item extends BaseTimeEntity {
 
     @Builder
     public Item(Store store, User owner, String name, String description, String photoUrl,
-                Long feePerDay, Long feePerHour, Long deposit, Integer quantity, ItemStatus status) {
+                 Long feePerHour, Long deposit, ItemStatus status) {
         this.store = store;
         this.owner = owner;
         this.name = name;
         this.description = description;
         this.photoUrl = photoUrl;
-        this.feePerDay = feePerDay;
         this.feePerHour = feePerHour;
         this.deposit = deposit;
-        this.quantity = quantity != null ? quantity : 1;
         this.status = status != null ? status : ItemStatus.AVAILABLE;
     }
 
@@ -69,19 +62,14 @@ public class Item extends BaseTimeEntity {
         return this.owner != null;
     }
 
-    public void decreaseQuantity() {
-        if (this.quantity <= 0) {
-            throw new IllegalStateException("No available quantity");
-        }
-        this.quantity--;
-        if (this.quantity == 0) {
-            this.status = ItemStatus.RENTED;
+    public void rent() {
+        if(this.status == ItemStatus.AVAILABLE){
+             this.status = ItemStatus.RENTED;
         }
     }
 
-    public void increaseQuantity() {
-        this.quantity++;
-        if (this.status == ItemStatus.RENTED) {
+    public void return(){
+        if(this.status == ItemStatus.RENTED){
             this.status = ItemStatus.AVAILABLE;
         }
     }
