@@ -23,7 +23,6 @@ public class StoreMapResponse {
                 .name(store.getName())
                 .lat(store.getLatitude())
                 .lon(store.getLongitude())
-                .category(store.getCategory())
                 .status(store.getStatus())
                 .build();
     }

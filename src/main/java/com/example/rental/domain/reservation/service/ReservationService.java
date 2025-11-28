@@ -1,5 +1,6 @@
 package com.example.rental.domain.reservation.service;
 
+import com.example.rental.domain.reservation.entity.Reservation;
 import com.example.rental.domain.reservation.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,4 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;
+
+    public Reservation getReservationById(Long reservationId) {
+        return reservationRepository.findById(reservationId).orElseThrow(
+        );
+    }
 }
