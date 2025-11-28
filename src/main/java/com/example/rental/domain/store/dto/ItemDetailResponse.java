@@ -16,7 +16,6 @@ public class ItemDetailResponse {
     private String description;
     private String photoUrl;
     private Long feePerDay;
-    private Long feePerDay;
     private Long deposit;
     private Integer quantity;
     private ItemStatus status;
