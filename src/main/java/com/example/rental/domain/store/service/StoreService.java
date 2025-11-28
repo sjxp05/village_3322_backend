@@ -44,6 +44,7 @@ public class StoreService {
         return itemRepository.findById(itemId).orElseThrow();
     }
 
+    @Transactional(readOnly = true)
     public List<ItemDetailResponse> getItemsByStore(Long storeId) {
         return itemRepository.findByStoreIdAndStatus(storeId, ItemStatus.AVAILABLE)
                 .stream().map(ItemDetailResponse::from)

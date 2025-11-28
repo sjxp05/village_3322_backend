@@ -38,7 +38,7 @@ public class Reservation extends BaseTimeEntity {
     private Long initialPaidFee;
 
     @Setter
-    @Column(nullable = false)
+    @Column
     private Long actualPaidFee;
 
     @Column(nullable = false, unique = true)
