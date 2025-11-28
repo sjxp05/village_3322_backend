@@ -3,6 +3,7 @@ package com.example.rental.domain.consign.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.example.rental.domain.consign.entity.Consign;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -31,12 +32,12 @@ public class ConsignController {
             @RequestParam(name = "lat") Double latitude,
             @RequestParam(name = "lon") Double longitude) {
 
-        List<StoreMapResponse> stores = storeService.getStoresAroundRadius(latitude, longitude, 1);
+        List<StoreMapResponse> stores = storeService.getAllStores();
         return ResponseEntity.ok().body(stores);
     }
 
     // 맡길 가게 선택시 상세정보 표시
-    @GetMapping("/api/consign/stores/{store_id}")
+    @GetMapping("/api/consign/stores/{storeId}")
     public ResponseEntity<?> getStoresToConsign(@PathVariable Long storeId) {
         Store store = storeService.getStoreById(storeId);
         return ResponseEntity.ok().body(Map.of(
@@ -63,6 +64,9 @@ public class ConsignController {
                 Long.parseLong(consignInfo.get("fee_per_hour")),
                 Long.parseLong(consignInfo.get("deposit")));
 
-        consignService.createConsign(owner, item);
+        Consign consign = consignService.createConsign(owner, item);
+
+
+        return ResponseEntity.ok().body(consign);
     }
 }

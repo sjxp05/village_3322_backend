@@ -2,6 +2,7 @@ package com.example.rental.domain.consign.service;
 
 import java.util.List;
 
+import com.example.rental.domain.store.entity.Item;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,10 +22,10 @@ public class ConsignService {
     private final ConsignRepository consignRepository;
 
     @Transactional
-    public Consign createConsign(User owner, Store store) {
+    public Consign createConsign(User owner, Item item) {
         Consign consign = Consign.builder()
                 .owner(owner)
-                .store(store)
+                .item(item)
                 .build();
         return consignRepository.save(consign);
     }
