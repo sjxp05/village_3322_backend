@@ -93,6 +93,13 @@ public class ReservationService {
     }
 
 
+    //반납 위한 개별 qr
+    public ReservationResponse getReturnQr(Long userId , Long reservationId) {
+        Reservation reservation = reservationRepository.findByUserIdAndId(userId,reservationId)
+                .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));
+        return ReservationResponse.from(reservation);
+    }
+
     // 반납하기
     // endedAt이 찍히고, 상태가  returned
     @Transactional

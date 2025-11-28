@@ -30,13 +30,26 @@ public class ReservationController {
     private final ReservationService reservationService;
 
 
-    //사용자의 모든 예약 내역 불러오기
+    //사용자의 모든 예약 내역 불러오기 -상태가 paid와 in used 인 것은 qr 코드도 불러와야 .
     @GetMapping("/{userId}")
     public ResponseEntity<ApiResponse<List<ReservationResponse>>> getAllReservations(
             @PathVariable Long userId
     ) {
         List<ReservationResponse> reservations = reservationService.getReservationByUserId(userId);
         return ResponseEntity.ok(ApiResponse.success(reservations));
+    }
+
+
+
+
+    // 사용자의 반납 위한 개별 qr
+    @GetMapping("/{userId}/{reservationId}")
+    public ResponseEntity<ApiResponse<ReservationResponse>> getReservationById(
+            @PathVariable Long userId,
+            @PathVariable Long reservationId
+    ){
+        ReservationResponse reservation = reservationService.getReturnQr(userId,reservationId);
+        return ResponseEntity.ok(ApiResponse.success(reservation));
     }
 
 
@@ -52,7 +65,7 @@ public class ReservationController {
     }
 
 
-    //사용 시작
+    //사용 시작 - qr 코드 클릭하면 작동!
     @PostMapping("/{reservationId}/start")
     public ResponseEntity<ApiResponse<ReservationResponse>> startReservation(
             @PathVariable Long reservationId
@@ -73,7 +86,7 @@ public class ReservationController {
     }
 
 
-    //반납하기
+    //반납하기 - 마찬가지로  qr 클릭하면 반납이 됨
     @PostMapping("/{reservationId}/return")
     public ResponseEntity<ApiResponse<ReservationResponse>> returnItem(
             @PathVariable Long reservationId
@@ -83,7 +96,7 @@ public class ReservationController {
     }
 
 
-    //최종 결제 및 환불
+    //최종 결제 및 환불 -정산 버튼 눌렸을 시에 작동함.
     @PostMapping("/{reservationId}/finalize")
     public ResponseEntity<ApiResponse<PaymentFinalizeResponse>> finalizePayment(
             @PathVariable Long reservationId

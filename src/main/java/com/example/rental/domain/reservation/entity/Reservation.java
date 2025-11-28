@@ -8,10 +8,7 @@ import com.example.rental.domain.store.entity.Item;
 import com.example.rental.domain.user.entity.User;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "reservations")
@@ -40,11 +37,15 @@ public class Reservation extends BaseTimeEntity {
     @Column(nullable = false)
     private Long initialPaidFee;
 
+    @Setter
     @Column(nullable = false)
     private Long actualPaidFee;
 
     @Column(nullable = false, unique = true)
     private String qrToken;
+
+    @Column(length = 500)
+    private String imageUrl;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -115,7 +116,4 @@ public class Reservation extends BaseTimeEntity {
         this.usageHours += additionalHours;
     }
 
-    public void setActualPaidFee(Long actualPaidFee) {
-        this.actualPaidFee = actualPaidFee;
-    }
 }
