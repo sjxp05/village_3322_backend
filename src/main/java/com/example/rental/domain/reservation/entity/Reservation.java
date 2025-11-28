@@ -107,4 +107,15 @@ public class Reservation extends BaseTimeEntity {
         }
         this.status = ReservationStatus.CANCELED;
     }
+
+    public void extendUsageHours(Long additionalHours) {
+        if (this.status != ReservationStatus.IN_USE) {
+            throw new IllegalStateException("Can only extend usage hours when IN_USE");
+        }
+        this.usageHours += additionalHours;
+    }
+
+    public void setActualPaidFee(Long actualPaidFee) {
+        this.actualPaidFee = actualPaidFee;
+    }
 }

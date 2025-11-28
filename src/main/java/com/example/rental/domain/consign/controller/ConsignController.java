@@ -3,6 +3,7 @@ package com.example.rental.domain.consign.controller;
 import java.util.List;
 import java.util.Map;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 

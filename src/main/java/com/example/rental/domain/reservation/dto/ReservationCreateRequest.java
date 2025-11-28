@@ -1,0 +1,16 @@
+package com.example.rental.domain.reservation.dto;
+
+import com.example.rental.domain.reservation.entity.Reservation;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
+public class ReservationCreateRequest {
+    private Long userId;
+    private Long itemId;
+    private Long usageHours;
+
+
+
+}
