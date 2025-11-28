@@ -96,7 +96,7 @@ public class StoreService {
 
         // If it's a consigned item (has owner), create consign record
         if (owner != null) {
-            consignService.createConsign(owner, savedItem);
+            consignService.createConsign(owner, savedItem, store);
         }
 
         return savedItem;

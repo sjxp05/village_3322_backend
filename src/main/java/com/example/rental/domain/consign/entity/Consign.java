@@ -6,10 +6,7 @@ import com.example.rental.domain.store.entity.Store;
 import com.example.rental.domain.user.entity.User;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "consigns")
@@ -22,6 +19,10 @@ public class Consign extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id",  nullable = false)
+    private Store store;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
@@ -29,13 +30,11 @@ public class Consign extends BaseTimeEntity {
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id", nullable = false)
-    private Store store;
 
     @Column(nullable = false)
     private Long totalProfit;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ConsignStatus status;
@@ -57,7 +56,4 @@ public class Consign extends BaseTimeEntity {
         this.status = ConsignStatus.WITHDRAWN;
     }
 
-    public void setStatus(ConsignStatus status) {
-        this.status = status;
-    }
 }

@@ -30,6 +30,9 @@ public class User extends BaseTimeEntity {
 
     private Double longitude;
 
+
+    private Long property;
+
     @Builder
     public User(String nickname, String email, Long point, Double latitude, Double longitude) {
         this.nickname = nickname;
