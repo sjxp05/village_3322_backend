@@ -2,6 +2,7 @@ package com.example.rental.domain.consign.entity;
 
 import com.example.rental.common.BaseTimeEntity;
 import com.example.rental.domain.store.entity.Item;
+import com.example.rental.domain.store.entity.Store;
 import com.example.rental.domain.user.entity.User;
 
 import jakarta.persistence.*;
@@ -28,6 +29,10 @@ public class Consign extends BaseTimeEntity {
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id", nullable = false)
+    private Store store;
+
     @Column(nullable = false)
     private Long totalProfit;
 
@@ -36,11 +41,12 @@ public class Consign extends BaseTimeEntity {
     private ConsignStatus status;
 
     @Builder
-    public Consign(User owner, Item item) {
+    public Consign(User owner, Item item, Store store) {
         this.owner = owner;
         this.item = item;
+        this.store = store;
         this.totalProfit = 0L;
-        this.status = ConsignStatus.ACTIVE;
+        this.status = ConsignStatus.WAITING;
     }
 
     public void addProfit(Long amount) {
@@ -51,7 +57,7 @@ public class Consign extends BaseTimeEntity {
         this.status = ConsignStatus.WITHDRAWN;
     }
 
-    public void markSoldOut() {
-        this.status = ConsignStatus.SOLD_OUT;
+    public void setStatus(ConsignStatus status) {
+        this.status = status;
     }
 }

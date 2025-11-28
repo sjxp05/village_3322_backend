@@ -3,7 +3,6 @@ package com.example.rental.domain.consign.controller;
 import java.util.List;
 import java.util.Map;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,9 +52,10 @@ public class ConsignController {
     public ResponseEntity<?> requestConsign(@RequestBody Map<String, String> consignInfo) {
 
         User owner = userService.findUserById(Long.parseLong(consignInfo.get("owner_id")));
+        Store store = storeService.findById(Long.parseLong(consignInfo.get("store_id")));
 
         Item item = storeService.createItem(
-                Long.parseLong(consignInfo.get("store_id")),
+                store.getId(),
                 owner.getId(),
                 consignInfo.get("name"),
                 consignInfo.get("description"),
@@ -63,6 +63,6 @@ public class ConsignController {
                 Long.parseLong(consignInfo.get("fee_per_hour")),
                 Long.parseLong(consignInfo.get("deposit")));
 
-        consignService.createConsign(owner, item);
+        consignService.createConsign(owner, item, store);
     }
 }
