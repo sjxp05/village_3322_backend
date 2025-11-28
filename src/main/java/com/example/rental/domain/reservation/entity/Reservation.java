@@ -1,5 +1,6 @@
 package com.example.rental.domain.reservation.entity;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.example.rental.common.BaseTimeEntity;
@@ -34,7 +35,13 @@ public class Reservation extends BaseTimeEntity {
     private Long usageHours;
 
     @Column(nullable = false)
+    private Long quantity;
+
+    @Column(nullable = false)
     private Long initialPaidFee;
+
+    @Column(nullable = false)
+    private Long actualPaidFee;
 
     @Column(nullable = false, unique = true)
     private String qrToken;
@@ -43,8 +50,14 @@ public class Reservation extends BaseTimeEntity {
     @Column(nullable = false)
     private ReservationStatus status;
 
-    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Rental rental;
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    private LocalDateTime startedAt;
+
+    @Column(nullable = false)
+    private LocalDateTime endedAt;
 
     @Builder
     public Reservation(User user, Item item, Long usageHours, Long initialPaidFee, ReservationStatus status) {
@@ -61,13 +74,31 @@ public class Reservation extends BaseTimeEntity {
             throw new IllegalStateException("Can only start usage from PAID status");
         }
         this.status = ReservationStatus.IN_USE;
+        this.startedAt = LocalDateTime.now();
     }
 
     public void markReturned() {
         if (this.status != ReservationStatus.IN_USE) {
             throw new IllegalStateException("Can only return from IN_USE status");
         }
+
+        this.endedAt = LocalDateTime.now();
         this.status = ReservationStatus.RETURNED;
+    }
+
+    public void markLost() {
+        this.endedAt = LocalDateTime.now();
+        this.status = ReservationStatus.LOST;
+    }
+
+    public void markDamaged(Long actualPaidFee) {
+        this.endedAt = LocalDateTime.now();
+        this.actualPaidFee = actualPaidFee;
+        this.status = ReservationStatus.DAMAGED;
+    }
+
+    public boolean isOverdue() {
+        return LocalDateTime.now().isAfter(this.startedAt.plusHours(this.usageHours));
     }
 
     public void cancel() {

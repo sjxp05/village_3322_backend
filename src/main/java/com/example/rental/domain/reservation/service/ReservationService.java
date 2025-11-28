@@ -1,10 +1,14 @@
 package com.example.rental.domain.reservation.service;
 
-import com.example.rental.domain.reservation.entity.Reservation;
-import com.example.rental.domain.reservation.repository.ReservationRepository;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.example.rental.domain.reservation.entity.Reservation;
+import com.example.rental.domain.reservation.repository.ReservationRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -13,8 +17,7 @@ public class ReservationService {
 
     private final ReservationRepository reservationRepository;
 
-    public Reservation getReservationById(Long reservationId) {
-        return reservationRepository.findById(reservationId).orElseThrow(
-        );
+    public List<Reservation> getReservationById(Long userId) {
+        return reservationRepository.findByUserId(userId);
     }
 }

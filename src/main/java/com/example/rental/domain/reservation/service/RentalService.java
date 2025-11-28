@@ -1,16 +1,20 @@
 package com.example.rental.domain.reservation.service;
 
-import com.example.rental.domain.consign.service.ConsignService;
-import com.example.rental.domain.reservation.entity.*;
-import com.example.rental.domain.reservation.repository.RentalRepository;
-import com.example.rental.domain.reservation.repository.ReservationRepository;
-import com.example.rental.domain.store.entity.Item;
-import lombok.RequiredArgsConstructor;
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
+import com.example.rental.domain.consign.service.ConsignService;
+import com.example.rental.domain.reservation.entity.Rental;
+import com.example.rental.domain.reservation.entity.Reservation;
+import com.example.rental.domain.reservation.entity.ReservationStatus;
+import com.example.rental.domain.reservation.repository.RentalRepository;
+import com.example.rental.domain.reservation.repository.ReservationRepository;
+import com.example.rental.domain.store.entity.Item;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -90,7 +94,7 @@ public class RentalService {
         // Calculate based on day or hour rate (whichever is cheaper for user)
         Long hourlyTotal = hours * item.getFeePerHour();
 
-        return Math.min(hourlyTotal);
+        return hourlyTotal;
     }
 
     public Rental getRentalByReservationId(Long reservationId) {

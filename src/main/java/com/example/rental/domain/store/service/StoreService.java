@@ -1,5 +1,10 @@
 package com.example.rental.domain.store.service;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.example.rental.domain.consign.service.ConsignService;
 import com.example.rental.domain.store.dto.ItemDetailResponse;
 import com.example.rental.domain.store.dto.StoreMapResponse;
@@ -10,11 +15,8 @@ import com.example.rental.domain.store.repository.ItemRepository;
 import com.example.rental.domain.store.repository.StoreRepository;
 import com.example.rental.domain.user.entity.User;
 import com.example.rental.domain.user.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +47,7 @@ public class StoreService {
 
     @Transactional
     public Item createItem(Long storeId, Long ownerId, String name, String description,
-                           String photoUrl, Long feePerDay, Long feePerHour, Long deposit, Integer quantity) {
+            String photoUrl, Long feePerHour, Long deposit) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new IllegalArgumentException("Store not found"));
 
@@ -61,10 +63,8 @@ public class StoreService {
                 .name(name)
                 .description(description)
                 .photoUrl(photoUrl)
-                .feePerDay(feePerDay)
                 .feePerHour(feePerHour)
                 .deposit(deposit)
-                .quantity(quantity)
                 .status(ItemStatus.AVAILABLE)
                 .build();
 

@@ -4,5 +4,7 @@ public enum ReservationStatus {
     PAID,
     CANCELED,
     IN_USE,
-    RETURNED
+    RETURNED,
+    LOST,
+    DAMAGED;
 }
