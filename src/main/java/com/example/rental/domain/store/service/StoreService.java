@@ -71,7 +71,7 @@ public class StoreService {
 
     @Transactional
     public Item createItem(Long storeId, Long ownerId, String name, String description,
-            String photoUrl, Long feePerHour, Long deposit) {
+            String photoUrl, Long feePerDay, Long deposit) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new IllegalArgumentException("Store not found"));
 
@@ -87,7 +87,7 @@ public class StoreService {
                 .name(name)
                 .description(description)
                 .photoUrl(photoUrl)
-                .feePerHour(feePerHour)
+                .feePerDay(feePerDay)
                 .deposit(deposit)
                 .status(ItemStatus.AVAILABLE)
                 .build();

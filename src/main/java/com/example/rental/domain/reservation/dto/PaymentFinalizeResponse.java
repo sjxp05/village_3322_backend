@@ -18,30 +18,29 @@ public class PaymentFinalizeResponse {
     private ReservationStatus status;
 
     // 결제 관련 정보
-    private Long initialPaidFee;      // 초기 결제 금액
-    private Long actualPaidFee;       // 실제 결제 금액
-    private Long difference;          // 차액 (양수: 환불, 음수: 추가 결제)
-    private PaymentType paymentType;  // 결제 타입
-    private String message;           // 안내 메시지
+    private Long initialPaidFee; // 초기 결제 금액
+    private Long actualPaidFee; // 실제 결제 금액
+    private Long difference; // 차액 (양수: 환불, 음수: 추가 결제)
+    private PaymentType paymentType; // 결제 타입
+    private String message; // 안내 메시지
 
     // 시간 정보
-    private Long usageHours;          // 예약한 사용 시간
-    private Long actualUsageHours;    // 실제 사용 시간
+    private Long usageDays; // 예약한 사용 시간
+    private Long actualUsageDays; // 실제 사용 시간
     private LocalDateTime startedAt;
     private LocalDateTime endedAt;
 
     public enum PaymentType {
-        REFUND,           // 환불
-        ADDITIONAL,       // 추가 결제
-        NONE              // 차액 없음
+        REFUND, // 환불
+        ADDITIONAL, // 추가 결제
+        NONE // 차액 없음
     }
 
     public static PaymentFinalizeResponse from(
             Reservation reservation,
             Long actualFee,
-            Long actualHours,
-            Long difference
-    ) {
+            Long actualDays,
+            Long difference) {
         PaymentType paymentType;
         String message;
 
@@ -67,8 +66,8 @@ public class PaymentFinalizeResponse {
                 .difference(difference)
                 .paymentType(paymentType)
                 .message(message)
-                .usageHours(reservation.getUsageHours())
-                .actualUsageHours(actualHours)
+                .usageDays(reservation.getUsageDays())
+                .actualUsageDays(actualDays)
                 .startedAt(reservation.getStartedAt())
                 .endedAt(reservation.getEndedAt())
                 .build();

@@ -11,7 +11,7 @@ public class StoreItemResponse {
 
     private Long itemId;
     private String name;
-    private Long feePerHour;
+    private Long feePerDay;
     private Long deposit;
     private ItemStatus status;
     private String photoUrl;
@@ -20,7 +20,7 @@ public class StoreItemResponse {
         return StoreItemResponse.builder()
                 .itemId(item.getId())
                 .name(item.getName())
-                .feePerHour(item.getFeePerHour())
+                .feePerDay(item.getFeePerDay())
                 .deposit(item.getDeposit())
                 .status(item.getStatus())
                 .photoUrl(item.getPhotoUrl())

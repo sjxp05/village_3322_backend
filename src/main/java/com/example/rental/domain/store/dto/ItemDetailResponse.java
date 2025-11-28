@@ -16,7 +16,7 @@ public class ItemDetailResponse {
     private String description;
     private String photoUrl;
     private Long feePerDay;
-    private Long feePerHour;
+    private Long feePerDay;
     private Long deposit;
     private Integer quantity;
     private ItemStatus status;
@@ -30,7 +30,7 @@ public class ItemDetailResponse {
                 .name(item.getName())
                 .description(item.getDescription())
                 .photoUrl(item.getPhotoUrl())
-                .feePerHour(item.getFeePerHour())
+                .feePerDay(item.getFeePerDay())
                 .deposit(item.getDeposit())
                 .status(item.getStatus())
                 .isConsignedItem(item.isConsignedItem())

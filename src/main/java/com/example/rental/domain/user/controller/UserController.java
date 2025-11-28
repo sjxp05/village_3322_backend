@@ -31,7 +31,7 @@ public class UserController {
         Map<String, List<?>> consignHistory = new HashMap<>();
 
         for (Item i : consignedItems) {
-            consignHistory.put(i.getStore().getName(), List.of(i.getId(), i.getName(), i.getFeePerHour()));
+            consignHistory.put(i.getStore().getName(), List.of(i.getId(), i.getName(), i.getFeePerDay()));
         }
 
         return ResponseEntity.ok().body(Map.of(

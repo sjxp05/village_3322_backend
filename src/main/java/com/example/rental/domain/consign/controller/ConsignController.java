@@ -61,7 +61,7 @@ public class ConsignController {
                 consignInfo.get("name"),
                 consignInfo.get("description"),
                 consignInfo.get("photo_url"),
-                Long.parseLong(consignInfo.get("fee_per_hour")),
+                Long.parseLong(consignInfo.get("fee_per_day")),
                 Long.parseLong(consignInfo.get("deposit")));
 
         Consign consign = consignService.createConsign(owner, item, store);

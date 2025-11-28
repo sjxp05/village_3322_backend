@@ -29,7 +29,7 @@ public class Reservation extends BaseTimeEntity {
     private Item item;
 
     @Column(nullable = false)
-    private Long usageHours;
+    private Long usageDays;
 
     @Column(nullable = false)
     private Long quantity;
@@ -61,10 +61,10 @@ public class Reservation extends BaseTimeEntity {
     private LocalDateTime endedAt;
 
     @Builder
-    public Reservation(User user, Item item, Long usageHours, Long initialPaidFee, ReservationStatus status) {
+    public Reservation(User user, Item item, Long usageDays, Long initialPaidFee, ReservationStatus status) {
         this.user = user;
         this.item = item;
-        this.usageHours = usageHours;
+        this.usageDays = usageDays;
         this.initialPaidFee = initialPaidFee;
         this.qrToken = UUID.randomUUID().toString();
         this.status = status != null ? status : ReservationStatus.PAID;
@@ -99,7 +99,7 @@ public class Reservation extends BaseTimeEntity {
     }
 
     public boolean isOverdue() {
-        return LocalDateTime.now().isAfter(this.startedAt.plusHours(this.usageHours));
+        return LocalDateTime.now().isAfter(this.startedAt.plusDays(this.usageDays));
     }
 
     public void cancel() {
@@ -109,11 +109,11 @@ public class Reservation extends BaseTimeEntity {
         this.status = ReservationStatus.CANCELED;
     }
 
-    public void extendUsageHours(Long additionalHours) {
+    public void extendUsageDays(Long additionalDays) {
         if (this.status != ReservationStatus.IN_USE) {
-            throw new IllegalStateException("Can only extend usage hours when IN_USE");
+            throw new IllegalStateException("Can only extend usage days when IN_USE");
         }
-        this.usageHours += additionalHours;
+        this.usageDays += additionalDays;
     }
 
 }

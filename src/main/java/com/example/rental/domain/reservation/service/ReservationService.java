@@ -26,15 +26,12 @@ public class ReservationService {
     private final UserRepository userRepository; // 유저 조회를 위해 필요
     private final ItemRepository itemRepository;
 
-
-    //사용자의 모든 예약 내역 불러오기
+    // 사용자의 모든 예약 내역 불러오기
     public List<ReservationResponse> getReservationByUserId(Long userId) {
-        return reservationRepository.findByUserId(userId).stream().map(ReservationResponse
-        ::from).toList();
+        return reservationRepository.findByUserId(userId).stream().map(ReservationResponse::from).toList();
     }
 
-
-    //사용자의 예약 추가
+    // 사용자의 예약 추가
     @Transactional
     public ReservationResponse createReservation(ReservationCreateRequest request) {
         // 1. 유저 조회
@@ -47,13 +44,13 @@ public class ReservationService {
 
         // 3. 결제 금액 계산 (아이템 시간당 가격 * 대여 시간)
         // Item 엔티티에 getFeePerHr() 메서드가 있다고 가정합니다. (ERD 기준 fee_per_hr)
-        long totalPrice = item.getFeePerHour() * request.getUsageHours();
+        long totalPrice = item.getFeePerDay() * request.getUsageDays();
 
         // 4. 예약 엔티티 생성 (빌더 패턴 사용)
         Reservation reservation = Reservation.builder()
                 .user(user)
                 .item(item)
-                .usageHours(request.getUsageHours())
+                .usageDays(request.getUsageDays())
                 .initialPaidFee(totalPrice) // 계산된 금액 주입
                 .status(ReservationStatus.PAID) // 초기 상태는 결제 완료(PAID)로 가정
                 .build();
@@ -66,8 +63,7 @@ public class ReservationService {
 
     }
 
-
-    //사용 시작
+    // 사용 시작
     // 상태가 in use로 바뀜
     @Transactional
     public ReservationResponse startReservation(Long reservationId) {
@@ -79,29 +75,27 @@ public class ReservationService {
         return ReservationResponse.from(reservation);
     }
 
-
-    //대여 연장
-    // usage_hour 갱신
+    // 대여 연장
+    // usage_day 갱신
     @Transactional
-    public ReservationResponse extendReservation(Long reservationId, Long additionalHours) {
+    public ReservationResponse extendReservation(Long reservationId, Long additionalDays) {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));
 
-        reservation.extendUsageHours(additionalHours);
+        reservation.extendUsageDays(additionalDays);
 
         return ReservationResponse.from(reservation);
     }
 
-
-    //반납 위한 개별 qr
-    public ReservationResponse getReturnQr(Long userId , Long reservationId) {
-        Reservation reservation = reservationRepository.findByUserIdAndId(userId,reservationId)
+    // 반납 위한 개별 qr
+    public ReservationResponse getReturnQr(Long userId, Long reservationId) {
+        Reservation reservation = reservationRepository.findByUserIdAndId(userId, reservationId)
                 .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));
         return ReservationResponse.from(reservation);
     }
 
     // 반납하기
-    // endedAt이 찍히고, 상태가  returned
+    // endedAt이 찍히고, 상태가 returned
     @Transactional
     public ReservationResponse returnItem(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId)
@@ -112,8 +106,7 @@ public class ReservationService {
         return ReservationResponse.from(reservation);
     }
 
-
-    //최종 결제 및 환불
+    // 최종 결제 및 환불
     @Transactional
     public PaymentFinalizeResponse finalizePayment(Long reservationId) {
         Reservation reservation = reservationRepository.findById(reservationId)
@@ -125,13 +118,12 @@ public class ReservationService {
 
         // 실제 사용 시간 계산 (시간 단위)
         long actualMinutes = java.time.Duration.between(
-            reservation.getStartedAt(),
-            reservation.getEndedAt()
-        ).toMinutes();
-        long actualHours = (actualMinutes + 59) / 60; // 올림 처리
+                reservation.getStartedAt(),
+                reservation.getEndedAt()).toMinutes();
+        long actualDays = (actualMinutes + 59) / 60; // 올림 처리
 
         // 실제 요금 계산
-        long actualFee = actualHours * reservation.getItem().getFeePerHour();
+        long actualFee = actualDays * reservation.getItem().getFeePerDay();
 
         // actualPaidFee 설정
         reservation.setActualPaidFee(actualFee);
@@ -140,8 +132,7 @@ public class ReservationService {
         long difference = reservation.getInitialPaidFee() - actualFee;
 
         // PaymentFinalizeResponse 생성 및 반환
-        return PaymentFinalizeResponse.from(reservation, actualFee, actualHours, difference);
+        return PaymentFinalizeResponse.from(reservation, actualFee, actualDays, difference);
     }
-
 
 }

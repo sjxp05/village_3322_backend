@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 public class ReservationCreateRequest {
     private Long userId;
     private Long itemId;
-    private Long usageHours;
-
-
+    private Long usageDays;
 
 }

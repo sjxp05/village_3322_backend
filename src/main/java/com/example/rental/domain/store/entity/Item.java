@@ -36,7 +36,7 @@ public class Item extends BaseTimeEntity {
     private String photoUrl;
 
     @Column(nullable = false)
-    private Long feePerHour;
+    private Long feePerDay;
 
     @Column(nullable = false)
     private Long deposit;
@@ -47,13 +47,13 @@ public class Item extends BaseTimeEntity {
 
     @Builder
     public Item(Store store, User owner, String name, String description, String photoUrl,
-                 Long feePerHour, Long deposit, ItemStatus status) {
+            Long feePerDay, Long deposit, ItemStatus status) {
         this.store = store;
         this.owner = owner;
         this.name = name;
         this.description = description;
         this.photoUrl = photoUrl;
-        this.feePerHour = feePerHour;
+        this.feePerDay = feePerDay;
         this.deposit = deposit;
         this.status = status != null ? status : ItemStatus.AVAILABLE;
     }
@@ -63,13 +63,13 @@ public class Item extends BaseTimeEntity {
     }
 
     public void rent() {
-        if(this.status == ItemStatus.AVAILABLE){
-             this.status = ItemStatus.RENTED;
+        if (this.status == ItemStatus.AVAILABLE) {
+            this.status = ItemStatus.RENTED;
         }
     }
 
-    public void setStatus(){
-        if(this.status == ItemStatus.RENTED){
+    public void setStatus() {
+        if (this.status == ItemStatus.RENTED) {
             this.status = ItemStatus.AVAILABLE;
         }
     }

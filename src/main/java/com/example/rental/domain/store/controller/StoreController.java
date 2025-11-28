@@ -40,7 +40,7 @@ public class StoreController {
         return ResponseEntity.ok().body(Map.of(
                 "name", item.getName(),
                 "photo_url", item.getPhotoUrl(),
-                "fee_per_hour", item.getFeePerHour(),
+                "fee_per_day", item.getFeePerDay(),
                 "deposit", item.getDeposit(),
                 "store_name", store.getName(),
                 "store_lat", store.getLatitude(),

@@ -37,7 +37,7 @@ CREATE TABLE items (
     description TEXT,
     photo_url VARCHAR(500),
     fee_per_day BIGINT NOT NULL,
-    fee_per_hour BIGINT NOT NULL,
+    fee_per_day BIGINT NOT NULL,
     deposit BIGINT NOT NULL,
     quantity INTEGER NOT NULL DEFAULT 1,
     status VARCHAR(50) NOT NULL DEFAULT 'AVAILABLE', -- ENUM: AVAILABLE, RENTED
@@ -99,5 +99,5 @@ VALUES ('TestUser', 'test@example.com', 10000, 37.5665, 126.9780);
 INSERT INTO stores (name, category, latitude, longitude, address, description, status)
 VALUES ('Village Convenience Store', 'CONVENIENCE', 37.5660, 126.9784, 'Seoul, South Korea', 'Your friendly neighborhood store', 'SPACE_AVAILABLE');
 
-INSERT INTO items (store_id, name, description, fee_per_day, fee_per_hour, deposit, quantity, status)
+INSERT INTO items (store_id, name, description, fee_per_day, fee_per_day, deposit, quantity, status)
 VALUES (1, 'Umbrella', 'Standard umbrella for rainy days', 5000, 1000, 10000, 5, 'AVAILABLE');
