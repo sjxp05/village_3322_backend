@@ -102,4 +102,10 @@ public class StoreService {
 
         return savedItem;
     }
+
+    public Double getDistance(Store store, Double lat, Double lon) {
+        Double x = store.getLatitude() - lat;
+        Double y = store.getLongitude() - lon;
+        return Math.sqrt((x * x) + (y * y));
+    }
 }

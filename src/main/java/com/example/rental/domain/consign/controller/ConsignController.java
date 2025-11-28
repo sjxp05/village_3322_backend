@@ -37,12 +37,17 @@ public class ConsignController {
 
     // 맡길 가게 선택시 상세정보 표시
     @GetMapping("/api/consign/stores/{storeId}")
-    public ResponseEntity<?> getStoresToConsign(@PathVariable Long storeId) {
+    public ResponseEntity<?> getStoresToConsign(
+            @PathVariable Long storeId,
+            @RequestParam Double lat,
+            @RequestParam Double lon) {
+
         Store store = storeService.getStoreById(storeId);
         return ResponseEntity.ok().body(Map.of(
                 "name", store.getName(),
                 "lat", store.getLatitude(),
                 "lon", store.getLongitude(),
+                "distance", storeService.getDistance(store, lat, lon),
                 "photo_url", store.getPhotoUrl(),
                 "status", store.getStatus(),
                 "description", store.getDescription()));
