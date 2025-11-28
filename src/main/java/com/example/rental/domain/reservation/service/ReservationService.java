@@ -7,6 +7,7 @@ import com.example.rental.domain.reservation.entity.Reservation;
 import com.example.rental.domain.reservation.entity.ReservationStatus;
 import com.example.rental.domain.reservation.repository.ReservationRepository;
 import com.example.rental.domain.store.entity.Item;
+import com.example.rental.domain.store.entity.ItemStatus;
 import com.example.rental.domain.store.repository.ItemRepository;
 import com.example.rental.domain.user.entity.User;
 import com.example.rental.domain.user.repository.UserRepository;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static com.example.rental.domain.store.entity.ItemStatus.RENTED;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +45,9 @@ public class ReservationService {
         Item item = itemRepository.findById(request.getItemId())
                 .orElseThrow(() -> new IllegalArgumentException("Item not found"));
 
+        if (item.getStatus() != ItemStatus.AVAILABLE) {
+            throw new IllegalArgumentException("Item is already available");
+        }
         // 3. 결제 금액 계산 (아이템 시간당 가격 * 대여 시간)
         // Item 엔티티에 getFeePerHr() 메서드가 있다고 가정합니다. (ERD 기준 fee_per_hr)
         long totalPrice = item.getFeePerDay() * request.getUsageDays();
@@ -54,6 +60,9 @@ public class ReservationService {
                 .initialPaidFee(totalPrice) // 계산된 금액 주입
                 .status(ReservationStatus.PAID) // 초기 상태는 결제 완료(PAID)로 가정
                 .build();
+
+        //4-1 아이템 상태 변환
+        item.setStatus(ItemStatus.RENTED);
 
         // 5. 저장
         Reservation savedReservation = reservationRepository.save(reservation);

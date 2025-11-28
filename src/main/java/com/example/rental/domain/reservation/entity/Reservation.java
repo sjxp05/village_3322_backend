@@ -31,8 +31,6 @@ public class Reservation extends BaseTimeEntity {
     @Column(nullable = false)
     private Long usageDays;
 
-    @Column(nullable = false)
-    private Long quantity;
 
     @Column(nullable = false)
     private Long initialPaidFee;
@@ -61,13 +59,14 @@ public class Reservation extends BaseTimeEntity {
     private LocalDateTime endedAt;
 
     @Builder
-    public Reservation(User user, Item item, Long usageDays, Long initialPaidFee, ReservationStatus status) {
+    public Reservation(User user, Item item, Long usageDays, Long initialPaidFee, ReservationStatus status, Long quantity) {
         this.user = user;
         this.item = item;
         this.usageDays = usageDays;
         this.initialPaidFee = initialPaidFee;
         this.qrToken = UUID.randomUUID().toString();
         this.status = status != null ? status : ReservationStatus.PAID;
+        this.createdAt = LocalDateTime.now();
     }
 
     public void startUsage() {
