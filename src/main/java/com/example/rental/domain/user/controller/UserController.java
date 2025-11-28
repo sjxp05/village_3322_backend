@@ -23,7 +23,7 @@ public class UserController {
     private final UserService userService;
     private final ConsignService consignService;
 
-    @GetMapping("/api/users/{userId}/settings")
+    @GetMapping("/{userId}/settings")
     public ResponseEntity<?> getSettings(@PathVariable Long userId) {
         User user = userService.findUserById(userId);
         List<Item> consignedItems = consignService.getActiveConsignsByOwner(userId).stream().map(Consign::getItem)
