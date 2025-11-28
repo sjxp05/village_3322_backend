@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "items")
@@ -43,6 +44,7 @@ public class Item extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Setter
     private ItemStatus status;
 
     @Builder
@@ -60,17 +62,5 @@ public class Item extends BaseTimeEntity {
 
     public boolean isConsignedItem() {
         return this.owner != null;
-    }
-
-    public void rent() {
-        if (this.status == ItemStatus.AVAILABLE) {
-            this.status = ItemStatus.RENTED;
-        }
-    }
-
-    public void setStatus() {
-        if (this.status == ItemStatus.RENTED) {
-            this.status = ItemStatus.AVAILABLE;
-        }
     }
 }
