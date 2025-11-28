@@ -54,10 +54,10 @@ public class Reservation extends BaseTimeEntity {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime startedAt;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime endedAt;
 
     @Builder
