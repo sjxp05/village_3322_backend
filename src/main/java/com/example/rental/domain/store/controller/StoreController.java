@@ -35,7 +35,7 @@ public class StoreController {
     public ResponseEntity<?> getItemInfo(@PathVariable Long itemId) {
         Item item = storeService.getItemById(itemId);
         Store store = item.getStore();
-        List<ItemDetailResponse> storeOtherItems = storeService.getItemsByStore(item.getStore());
+        List<ItemDetailResponse> storeOtherItems = storeService.getItemsByStore(item.getStore().getId());
 
         return ResponseEntity.ok().body(Map.of(
                 "name", item.getName(),
