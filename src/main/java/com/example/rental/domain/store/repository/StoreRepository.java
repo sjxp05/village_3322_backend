@@ -1,9 +1,10 @@
 package com.example.rental.domain.store.repository;
 
-import com.example.rental.domain.store.entity.Store;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import com.example.rental.domain.store.entity.Store;
 
 public interface StoreRepository extends JpaRepository<Store, Long> {
 

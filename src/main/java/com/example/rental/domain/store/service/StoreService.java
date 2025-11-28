@@ -45,6 +45,19 @@ public class StoreService {
                 .orElseThrow(() -> new IllegalArgumentException("Store not found"));
     }
 
+    // 근처
+    public List<StoreMapResponse> getStoresAroundRadius(Double latitude, Double longitude, Double radius) {
+        List<Store> stores = storeRepository.findAll();
+
+        stores = stores.stream().filter((e) -> {
+            Double lat = e.getLatitude() - latitude;
+            Double lon = e.getLongitude() - longitude;
+            return lat * lat + lon * lon <= radius * radius;
+        }).map(StoreMapResponse::from).toList();
+
+        return stores;
+    }
+
     @Transactional
     public Item createItem(Long storeId, Long ownerId, String name, String description,
             String photoUrl, Long feePerHour, Long deposit) {

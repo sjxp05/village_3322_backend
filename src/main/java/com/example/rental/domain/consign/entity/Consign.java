@@ -3,6 +3,7 @@ package com.example.rental.domain.consign.entity;
 import com.example.rental.common.BaseTimeEntity;
 import com.example.rental.domain.store.entity.Item;
 import com.example.rental.domain.user.entity.User;
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

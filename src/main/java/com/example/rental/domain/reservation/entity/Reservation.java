@@ -107,8 +107,4 @@ public class Reservation extends BaseTimeEntity {
         }
         this.status = ReservationStatus.CANCELED;
     }
-
-    public void setRental(Rental rental) {
-        this.rental = rental;
-    }
 }
