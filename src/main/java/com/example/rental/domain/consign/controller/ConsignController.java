@@ -3,11 +3,10 @@ package com.example.rental.domain.consign.controller;
 import java.util.List;
 import java.util.Map;
 
-import com.example.rental.domain.consign.entity.Consign;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.rental.domain.consign.entity.Consign;
 import com.example.rental.domain.consign.service.ConsignService;
 import com.example.rental.domain.store.dto.StoreMapResponse;
 import com.example.rental.domain.store.entity.Item;
@@ -65,7 +64,6 @@ public class ConsignController {
                 Long.parseLong(consignInfo.get("deposit")));
 
         Consign consign = consignService.createConsign(owner, item);
-
 
         return ResponseEntity.ok().body(consign);
     }
