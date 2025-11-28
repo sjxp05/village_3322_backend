@@ -17,7 +17,7 @@ public class ConsignResponse {
         return ConsignResponse.builder()
                 .consignId(consign.getId())
                 .ownerNickname(consign.getOwner().getNickname())
-                .photoUrl(consign.getPhotoUrl())
+                .photoUrl(consign.getItem().getPhotoUrl())
                 .build();
     }
 }
