@@ -36,6 +36,7 @@ public class Store extends BaseTimeEntity {
     private String photoUrl;
 
 
+    @Column(name = "store_property")
     private Long property;
 
     @Enumerated(EnumType.STRING)

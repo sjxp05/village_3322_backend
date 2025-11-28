@@ -31,6 +31,7 @@ public class User extends BaseTimeEntity {
     private Double longitude;
 
 
+    @Column(name = "user_property")
     private Long property;
 
     @Builder
