@@ -11,16 +11,16 @@ import java.time.LocalDateTime;
 public class UserResponse {
 
     private Long id;
-    private String email;
-    private String name;
+    private String nickname;
+    private Long point;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public static UserResponse from(User user) {
         return UserResponse.builder()
                 .id(user.getId())
-                .email(user.getEmail())
-                .name(user.getName())
+                .nickname(user.getNickname())
+                .point(user.getPoint())
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
                 .build();

@@ -17,15 +17,26 @@ public class User extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String email;
+    @Column(nullable = false)
+    private String nickname;
 
     @Column(nullable = false)
-    private String name;
+    private Long point;
 
     @Builder
-    public User(String email, String name) {
-        this.email = email;
-        this.name = name;
+    public User(String nickname, Long point) {
+        this.nickname = nickname;
+        this.point = point != null ? point : 0L;
+    }
+
+    public void addPoint(Long amount) {
+        this.point += amount;
+    }
+
+    public void deductPoint(Long amount) {
+        if (this.point < amount) {
+            throw new IllegalArgumentException("Insufficient points");
+        }
+        this.point -= amount;
     }
 }
