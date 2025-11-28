@@ -34,6 +34,30 @@ public class ReservationService {
         return reservationRepository.findByUserId(userId).stream().map(ReservationResponse::from).toList();
     }
 
+    //사용자의 결제한 예약 (PAID)
+    public List<ReservationResponse> getPaidReservations(Long userId) {
+        return reservationRepository.findByUserIdAndStatus(userId, ReservationStatus.PAID)
+                .stream()
+                .map(ReservationResponse::from)
+                .toList();
+    }
+
+    //사용자의 대여 중인 예약 (IN_USE)
+    public List<ReservationResponse> getInUseReservations(Long userId) {
+        return reservationRepository.findByUserIdAndStatus(userId, ReservationStatus.IN_USE)
+                .stream()
+                .map(ReservationResponse::from)
+                .toList();
+    }
+
+    //사용자의 반납한 예약 (RETURNED)
+    public List<ReservationResponse> getReturnedReservations(Long userId) {
+        return reservationRepository.findByUserIdAndStatus(userId, ReservationStatus.RETURNED)
+                .stream()
+                .map(ReservationResponse::from)
+                .toList();
+    }
+
     // 사용자의 예약 추가
     @Transactional
     public ReservationResponse createReservation(ReservationCreateRequest request) {

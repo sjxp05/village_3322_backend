@@ -29,11 +29,35 @@ public class ReservationController {
 
     private final ReservationService reservationService;
 
-    // 사용자의 모든 예약 내역 불러오기 -상태가 paid와 in used 인 것은 qr 코드도 불러와야 .
+    // 사용자의 모든 예약 내역 불러오기
     @GetMapping("/{userId}")
     public ResponseEntity<ApiResponse<List<ReservationResponse>>> getAllReservations(
             @PathVariable Long userId) {
         List<ReservationResponse> reservations = reservationService.getReservationByUserId(userId);
+        return ResponseEntity.ok(ApiResponse.success(reservations));
+    }
+
+    // 사용자의 결제한 예약 (PAID) - 대여 예정
+    @GetMapping("/{userId}/paid")
+    public ResponseEntity<ApiResponse<List<ReservationResponse>>> getPaidReservations(
+            @PathVariable Long userId) {
+        List<ReservationResponse> reservations = reservationService.getPaidReservations(userId);
+        return ResponseEntity.ok(ApiResponse.success(reservations));
+    }
+
+    // 사용자의 대여 중인 예약 (IN_USE)
+    @GetMapping("/{userId}/in-use")
+    public ResponseEntity<ApiResponse<List<ReservationResponse>>> getInUseReservations(
+            @PathVariable Long userId) {
+        List<ReservationResponse> reservations = reservationService.getInUseReservations(userId);
+        return ResponseEntity.ok(ApiResponse.success(reservations));
+    }
+
+    // 사용자의 반납한 예약 (RETURNED)
+    @GetMapping("/{userId}/returned")
+    public ResponseEntity<ApiResponse<List<ReservationResponse>>> getReturnedReservations(
+            @PathVariable Long userId) {
+        List<ReservationResponse> reservations = reservationService.getReturnedReservations(userId);
         return ResponseEntity.ok(ApiResponse.success(reservations));
     }
 
