@@ -60,15 +60,11 @@ public class StoreController {
 
     // 매장 클릭시 상품 목록 모두 표시
     @GetMapping("/api/items/stores/{storeId}")
-    public ResponseEntity<?> getItemsByStore(
+    public ResponseEntity<ApiResponse<List<ItemDetailResponse>>> getItemsByStore(
             @PathVariable Long storeId) {
 
         Store store = storeService.getStoreById(storeId);
         List<ItemDetailResponse> items = storeService.getItemsByStore(storeId);
-        return ResponseEntity.ok(Map.of(
-                "store_name", store.getName(),
-                "store_lat", store.getLatitude(),
-                "store_lon", store.getLongitude(),
-                "item_list", items));
+        return ResponseEntity.ok(ApiResponse.success(items));
     }
 }
