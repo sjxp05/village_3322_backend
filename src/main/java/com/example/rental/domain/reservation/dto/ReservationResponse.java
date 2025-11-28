@@ -13,21 +13,23 @@ public class ReservationResponse {
 
     private Long id;
     private Long userId;
-    private Long storeId;
-    private LocalDateTime reservationTime;
+    private Long itemId;
+    private String itemName;
+    private Long initialPaidFee;
+    private String qrToken;
     private ReservationStatus status;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
     public static ReservationResponse from(Reservation reservation) {
         return ReservationResponse.builder()
                 .id(reservation.getId())
                 .userId(reservation.getUser().getId())
-                .storeId(reservation.getStore().getId())
-                .reservationTime(reservation.getReservationTime())
+                .itemId(reservation.getItem().getId())
+                .itemName(reservation.getItem().getName())
+                .initialPaidFee(reservation.getInitialPaidFee())
+                .qrToken(reservation.getQrToken())
                 .status(reservation.getStatus())
                 .createdAt(reservation.getCreatedAt())
-                .updatedAt(reservation.getUpdatedAt())
                 .build();
     }
 }

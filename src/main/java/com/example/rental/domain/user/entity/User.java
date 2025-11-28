@@ -20,13 +20,23 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String nickname;
 
+    @Column(unique = true)
+    private String email;
+
     @Column(nullable = false)
     private Long point;
 
+    private Double latitude;
+
+    private Double longitude;
+
     @Builder
-    public User(String nickname, Long point) {
+    public User(String nickname, String email, Long point, Double latitude, Double longitude) {
         this.nickname = nickname;
+        this.email = email;
         this.point = point != null ? point : 0L;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public void addPoint(Long amount) {
@@ -38,5 +48,10 @@ public class User extends BaseTimeEntity {
             throw new IllegalArgumentException("Insufficient points");
         }
         this.point -= amount;
+    }
+
+    public void updateLocation(Double latitude, Double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 }

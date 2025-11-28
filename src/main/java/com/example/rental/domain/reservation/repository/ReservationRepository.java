@@ -5,12 +5,17 @@ import com.example.rental.domain.reservation.entity.ReservationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     List<Reservation> findByUserId(Long userId);
 
-    List<Reservation> findByStoreId(Long storeId);
+    List<Reservation> findByItemId(Long itemId);
 
     List<Reservation> findByStatus(ReservationStatus status);
+
+    List<Reservation> findByUserIdAndStatus(Long userId, ReservationStatus status);
+
+    Optional<Reservation> findByQrToken(String qrToken);
 }
