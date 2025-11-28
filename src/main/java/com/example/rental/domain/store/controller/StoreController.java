@@ -34,9 +34,7 @@ public class StoreController {
     // 아이템 한 개 상세정보
     @GetMapping("/api/items/{itemId}")
     public ResponseEntity<?> getItemInfo(
-            @PathVariable Long itemId,
-            @RequestParam Double lat,
-            @RequestParam Double lon) {
+            @PathVariable Long itemId) {
 
         Item item = storeService.getItemById(itemId);
         Store store = item.getStore();
@@ -50,7 +48,6 @@ public class StoreController {
                 "store_name", store.getName(),
                 "store_lat", store.getLatitude(),
                 "store_lon", store.getLongitude(),
-                "distance", storeService.getDistance(store, lat, lon),
                 "store_other_items", storeOtherItems));
     }
 
@@ -64,9 +61,7 @@ public class StoreController {
     // 매장 클릭시 상품 목록 모두 표시
     @GetMapping("/api/items/stores/{storeId}")
     public ResponseEntity<?> getItemsByStore(
-            @PathVariable Long storeId,
-            @RequestParam Double lat,
-            @RequestParam Double lon) {
+            @PathVariable Long storeId) {
 
         Store store = storeService.getStoreById(storeId);
         List<ItemDetailResponse> items = storeService.getItemsByStore(storeId);
@@ -74,7 +69,6 @@ public class StoreController {
                 "store_name", store.getName(),
                 "store_lat", store.getLatitude(),
                 "store_lon", store.getLongitude(),
-                "distance", storeService.getDistance(store, lat, lon),
                 "item_list", items));
     }
 }

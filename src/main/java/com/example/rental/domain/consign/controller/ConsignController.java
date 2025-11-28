@@ -27,9 +27,7 @@ public class ConsignController {
 
     // 물건 맡길 가게 목록 (목록/지도 형식 둘다 같은 api사용)
     @GetMapping("/api/consign")
-    public ResponseEntity<?> getStoresToConsign(
-            @RequestParam(name = "lat") Double latitude,
-            @RequestParam(name = "lon") Double longitude) {
+    public ResponseEntity<?> getStoresToConsign() {
 
         List<StoreMapResponse> stores = storeService.getAllStores();
         return ResponseEntity.ok().body(stores);
@@ -38,16 +36,13 @@ public class ConsignController {
     // 맡길 가게 선택시 상세정보 표시
     @GetMapping("/api/consign/stores/{storeId}")
     public ResponseEntity<?> getStoresToConsign(
-            @PathVariable Long storeId,
-            @RequestParam Double lat,
-            @RequestParam Double lon) {
+            @PathVariable Long storeId) {
 
         Store store = storeService.getStoreById(storeId);
         return ResponseEntity.ok().body(Map.of(
                 "name", store.getName(),
                 "lat", store.getLatitude(),
                 "lon", store.getLongitude(),
-                "distance", storeService.getDistance(store, lat, lon),
                 "photo_url", store.getPhotoUrl(),
                 "status", store.getStatus(),
                 "description", store.getDescription()));
