@@ -36,9 +36,6 @@ public class RentalService {
         // Update reservation status
         reservation.startUsage();
 
-        // Decrease item quantity
-        reservation.getItem().decreaseQuantity();
-
         // Create rental record
         LocalDateTime timeLimit = LocalDateTime.now().plusHours(rentalHours);
         Rental rental = Rental.builder()
@@ -71,9 +68,6 @@ public class RentalService {
         rental.completeReturn(actualFee);
         reservation.markReturned();
 
-        // Increase item quantity back
-        reservation.getItem().increaseQuantity();
-
         // Add profit to consign if it's a consigned item
         Item item = reservation.getItem();
         if (item.isConsignedItem()) {
@@ -95,9 +89,8 @@ public class RentalService {
 
         // Calculate based on day or hour rate (whichever is cheaper for user)
         Long hourlyTotal = hours * item.getFeePerHour();
-        Long dailyTotal = (days + 1) * item.getFeePerDay();
 
-        return Math.min(hourlyTotal, dailyTotal);
+        return Math.min(hourlyTotal);
     }
 
     public Rental getRentalByReservationId(Long reservationId) {

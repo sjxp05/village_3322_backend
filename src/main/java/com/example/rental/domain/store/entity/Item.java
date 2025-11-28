@@ -68,7 +68,7 @@ public class Item extends BaseTimeEntity {
         }
     }
 
-    public void return(){
+    public void setStatus(){
         if(this.status == ItemStatus.RENTED){
             this.status = ItemStatus.AVAILABLE;
         }

@@ -30,10 +30,8 @@ public class ItemDetailResponse {
                 .name(item.getName())
                 .description(item.getDescription())
                 .photoUrl(item.getPhotoUrl())
-                .feePerDay(item.getFeePerDay())
                 .feePerHour(item.getFeePerHour())
                 .deposit(item.getDeposit())
-                .quantity(item.getQuantity())
                 .status(item.getStatus())
                 .isConsignedItem(item.isConsignedItem())
                 .build();
