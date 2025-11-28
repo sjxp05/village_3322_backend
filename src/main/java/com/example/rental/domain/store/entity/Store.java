@@ -20,15 +20,25 @@ public class Store extends BaseTimeEntity {
     @Column(nullable = false)
     private String name;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StoreCategory category;
+
+    @Column(nullable = false)
+    private Double latitude;
+
+    @Column(nullable = false)
+    private Double longitude;
+
     @Column(nullable = false)
     private String address;
 
-    private String description;
-
     @Builder
-    public Store(String name, String address, String description) {
+    public Store(String name, StoreCategory category, Double latitude, Double longitude, String address) {
         this.name = name;
+        this.category = category;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.address = address;
-        this.description = description;
     }
 }
