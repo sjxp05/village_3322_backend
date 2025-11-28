@@ -33,12 +33,29 @@ public class Store extends BaseTimeEntity {
     @Column(nullable = false)
     private String address;
 
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    private String photoUrl;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StoreStatus status;
+
     @Builder
-    public Store(String name, StoreCategory category, Double latitude, Double longitude, String address) {
+    public Store(String name, StoreCategory category, Double latitude, Double longitude,
+                 String address, String description, String photoUrl, StoreStatus status) {
         this.name = name;
         this.category = category;
         this.latitude = latitude;
         this.longitude = longitude;
         this.address = address;
+        this.description = description;
+        this.photoUrl = photoUrl;
+        this.status = status != null ? status : StoreStatus.SPACE_AVAILABLE;
+    }
+
+    public void updateStatus(StoreStatus status) {
+        this.status = status;
     }
 }

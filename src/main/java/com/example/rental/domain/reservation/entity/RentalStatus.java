@@ -1,8 +1,8 @@
 package com.example.rental.domain.reservation.entity;
 
-public enum ReservationStatus {
-    PAID,
-    CANCELED,
+public enum RentalStatus {
     IN_USE,
-    RETURNED
+    RETURNED,
+    LOST,
+    DAMAGED
 }

@@ -5,31 +5,37 @@ import com.example.rental.domain.store.entity.ItemStatus;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Builder
 public class ItemDetailResponse {
 
     private Long id;
     private Long storeId;
+    private Long ownerId;
     private String name;
-    private Long pricePerHour;
+    private String description;
+    private String photoUrl;
+    private Long feePerDay;
+    private Long feePerHour;
     private Long deposit;
+    private Integer quantity;
     private ItemStatus status;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private boolean isConsignedItem;
 
     public static ItemDetailResponse from(Item item) {
         return ItemDetailResponse.builder()
                 .id(item.getId())
                 .storeId(item.getStore().getId())
+                .ownerId(item.getOwner() != null ? item.getOwner().getId() : null)
                 .name(item.getName())
-                .pricePerHour(item.getPricePerHour())
+                .description(item.getDescription())
+                .photoUrl(item.getPhotoUrl())
+                .feePerDay(item.getFeePerDay())
+                .feePerHour(item.getFeePerHour())
                 .deposit(item.getDeposit())
+                .quantity(item.getQuantity())
                 .status(item.getStatus())
-                .createdAt(item.getCreatedAt())
-                .updatedAt(item.getUpdatedAt())
+                .isConsignedItem(item.isConsignedItem())
                 .build();
     }
 }

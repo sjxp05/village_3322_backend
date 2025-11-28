@@ -2,6 +2,7 @@ package com.example.rental.domain.store.dto;
 
 import com.example.rental.domain.store.entity.Store;
 import com.example.rental.domain.store.entity.StoreCategory;
+import com.example.rental.domain.store.entity.StoreStatus;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,6 +15,7 @@ public class StoreMapResponse {
     private Double lat;
     private Double lon;
     private StoreCategory category;
+    private StoreStatus status;
 
     public static StoreMapResponse from(Store store) {
         return StoreMapResponse.builder()
@@ -22,6 +24,7 @@ public class StoreMapResponse {
                 .lat(store.getLatitude())
                 .lon(store.getLongitude())
                 .category(store.getCategory())
+                .status(store.getStatus())
                 .build();
     }
 }
