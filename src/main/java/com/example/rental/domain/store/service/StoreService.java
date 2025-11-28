@@ -34,9 +34,19 @@ public class StoreService {
                 .toList();
     }
 
+    public List<ItemDetailResponse> getAllAvailableItems() {
+        return itemRepository.findByStatus(ItemStatus.AVAILABLE)
+                .stream().map(ItemDetailResponse::from)
+                .toList();
+    }
+
+    public Item getItemById(Long itemId) {
+        return itemRepository.findById(itemId).orElseThrow();
+    }
+
     public List<ItemDetailResponse> getItemsByStore(Long storeId) {
-        return itemRepository.findByStoreIdAndStatus(storeId, ItemStatus.AVAILABLE).stream()
-                .map(ItemDetailResponse::from)
+        return itemRepository.findByStoreIdAndStatus(storeId, ItemStatus.AVAILABLE)
+                .stream().map(ItemDetailResponse::from)
                 .toList();
     }
 
@@ -45,18 +55,19 @@ public class StoreService {
                 .orElseThrow(() -> new IllegalArgumentException("Store not found"));
     }
 
-    // 근처
-    public List<StoreMapResponse> getStoresAroundRadius(Double latitude, Double longitude, Double radius) {
-        List<Store> stores = storeRepository.findAll();
+    //
+    // public List<StoreMapResponse> getStoresAroundRadius(Double latitude, Double
+    // longitude, Double radius) {
+    // List<Store> stores = storeRepository.findAll();
 
-        stores = stores.stream().filter((e) -> {
-            Double lat = e.getLatitude() - latitude;
-            Double lon = e.getLongitude() - longitude;
-            return lat * lat + lon * lon <= radius * radius;
-        }).map(StoreMapResponse::from).toList();
+    // stores = stores.stream().filter((e) -> {
+    // Double lat = e.getLatitude() - latitude;
+    // Double lon = e.getLongitude() - longitude;
+    // return lat * lat + lon * lon <= radius * radius;
+    // }).map(StoreMapResponse::from).toList();
 
-        return stores;
-    }
+    // return stores;
+    // }
 
     @Transactional
     public Item createItem(Long storeId, Long ownerId, String name, String description,

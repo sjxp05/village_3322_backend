@@ -15,8 +15,9 @@ import com.example.rental.domain.store.service.StoreService;
 import com.example.rental.domain.user.entity.User;
 import com.example.rental.domain.user.service.UserService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
-@RequestMapping("/api/consign")
 @RequiredArgsConstructor
 public class ConsignController {
 
@@ -24,7 +25,7 @@ public class ConsignController {
     private final UserService userService;
     private final StoreService storeService;
 
-    // 물건 맡길 가게 목록
+    // 물건 맡길 가게 목록 (목록/지도 형식 둘다 같은 api사용)
     @GetMapping("/api/consign")
     public ResponseEntity<?> getStoresToConsign(
             @RequestParam(name = "lat") Double latitude,
@@ -34,6 +35,7 @@ public class ConsignController {
         return ResponseEntity.ok().body(stores);
     }
 
+    // 맡길 가게 선택시 상세정보 표시
     @GetMapping("/api/consign/stores/{store_id}")
     public ResponseEntity<?> getStoresToConsign(@PathVariable Long storeId) {
         Store store = storeService.getStoreById(storeId);
