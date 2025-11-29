@@ -87,3 +87,5 @@ application-local.properties
 
 # Properties
 gradle.properties
+
+*.txt
