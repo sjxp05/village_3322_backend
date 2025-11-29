@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.rental.domain.consign.entity.Consign;
 import com.example.rental.domain.consign.entity.ConsignStatus;
 import com.example.rental.domain.consign.repository.ConsignRepository;
-import com.example.rental.domain.reservation.entity.Reservation;
 import com.example.rental.domain.reservation.entity.ReservationStatus;
 import com.example.rental.domain.reservation.repository.ReservationRepository;
 import com.example.rental.domain.store.dto.RentalStatusResponse;
@@ -47,7 +46,7 @@ public class StoreAdminService {
             rentalCount = reservationRepository.findAll().stream()
                     .filter(r -> itemIds.contains(r.getItem().getId()))
                     .filter(r -> r.getStatus() == ReservationStatus.PAID ||
-                                r.getStatus() == ReservationStatus.IN_USE)
+                            r.getStatus() == ReservationStatus.IN_USE)
                     .count();
         }
 
@@ -55,10 +54,12 @@ public class StoreAdminService {
         Long itemCount = (long) items.size();
 
         // 맡기기신청건수
-        Long consignRequestCount = (long) consignRepository.findByStoreIdAndStatus(storeId, ConsignStatus.WAITING).size();
+        Long consignRequestCount = (long) consignRepository.findByStoreIdAndStatus(storeId, ConsignStatus.WAITING)
+                .size();
 
         // 회수신청건수
-        Long withdrawalRequestCount =(long) consignRepository.findByStoreIdAndStatus(storeId, ConsignStatus.WITHDRAWN).size();
+        Long withdrawalRequestCount = (long) consignRepository.findByStoreIdAndStatus(storeId, ConsignStatus.WITHDRAWN)
+                .size();
 
         return StoreInfoResponse.from(store, rentalCount, itemCount, consignRequestCount, withdrawalRequestCount);
     }
@@ -77,7 +78,7 @@ public class StoreAdminService {
         return reservationRepository.findAll().stream()
                 .filter(r -> itemIds.contains(r.getItem().getId()))
                 .filter(r -> r.getStatus() == ReservationStatus.PAID ||
-                            r.getStatus() == ReservationStatus.IN_USE)
+                        r.getStatus() == ReservationStatus.IN_USE)
                 .map(RentalStatusResponse::from)
                 .collect(Collectors.toList());
     }

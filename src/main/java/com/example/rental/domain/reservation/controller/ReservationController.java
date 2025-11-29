@@ -4,23 +4,12 @@ import com.example.rental.common.ApiResponse;
 import com.example.rental.domain.reservation.dto.PaymentFinalizeResponse;
 import com.example.rental.domain.reservation.dto.ReservationCreateRequest;
 import com.example.rental.domain.reservation.dto.ReservationResponse;
-import com.example.rental.domain.reservation.entity.Reservation;
 import com.example.rental.domain.reservation.service.ReservationService;
-import com.example.rental.domain.store.dto.StoreMapResponse;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import com.example.rental.common.ApiResponse;
-import com.example.rental.domain.reservation.dto.ReservationResponse;
-import com.example.rental.domain.reservation.entity.Reservation;
-import com.example.rental.domain.reservation.service.ReservationService;
-
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/reservations")

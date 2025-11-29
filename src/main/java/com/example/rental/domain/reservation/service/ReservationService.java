@@ -18,8 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.example.rental.domain.store.entity.ItemStatus.RENTED;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -34,7 +32,7 @@ public class ReservationService {
         return reservationRepository.findByUserId(userId).stream().map(ReservationResponse::from).toList();
     }
 
-    //사용자의 결제한 예약 (PAID)
+    // 사용자의 결제한 예약 (PAID)
     public List<ReservationResponse> getPaidReservations(Long userId) {
         return reservationRepository.findByUserIdAndStatus(userId, ReservationStatus.PAID)
                 .stream()
@@ -42,7 +40,7 @@ public class ReservationService {
                 .toList();
     }
 
-    //사용자의 대여 중인 예약 (IN_USE)
+    // 사용자의 대여 중인 예약 (IN_USE)
     public List<ReservationResponse> getInUseReservations(Long userId) {
         return reservationRepository.findByUserIdAndStatus(userId, ReservationStatus.IN_USE)
                 .stream()
@@ -50,7 +48,7 @@ public class ReservationService {
                 .toList();
     }
 
-    //사용자의 반납한 예약 (RETURNED)
+    // 사용자의 반납한 예약 (RETURNED)
     public List<ReservationResponse> getReturnedReservations(Long userId) {
         return reservationRepository.findByUserIdAndStatus(userId, ReservationStatus.RETURNED)
                 .stream()
@@ -85,7 +83,7 @@ public class ReservationService {
                 .status(ReservationStatus.PAID) // 초기 상태는 결제 완료(PAID)로 가정
                 .build();
 
-        //4-1 아이템 상태 변환
+        // 4-1 아이템 상태 변환
         item.setStatus(ItemStatus.RENTED);
 
         // 5. 저장
