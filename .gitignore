@@ -88,4 +88,5 @@ application-local.properties
 # Properties
 gradle.properties
 
-*.txt
+# API Docs
+txt/
